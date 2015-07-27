@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <SDL.h>
 #include <cstdlib>
 
 using namespace std;
@@ -17,24 +18,24 @@ using namespace std;
 class Ball {
 
 public:
-	const static int mSize = 16;
-	const static int mSpeed = 500;
 	int mPosX, mPosY;
-
-	const static int SCREEN_WIDTH = 1280;
-	const static int SCREEN_HEIGHT = 720;
-
 public:
-	const static int BAR_Length = 144;
+	const static int BAR_Length = 64;
+	const static int mSize = 8;
 
 private:
+	const static int ARENA_SIZE = 480;
 	double mVelX, mVelY;
+	int mSpeed;
 	int mLastUpdate;
+	int mGap;
+	bool mCanBounce;
 
 public:
 	Ball(int timeTicks);
-	void update(int timeTicks, int barLeftPos = 0, int barRightPos = 0);
+	int update(int timeTicks, int barLeftPos = 0, int barRightPos = 0);
 	void newBall(int timeTicks);
+	void setGap(int gap);
 	virtual ~Ball();
 };
 

@@ -60,12 +60,14 @@ void Graphics::draw(Ball* ball, int leftBarPos, int rightBarPos) {
 
 	// Drawing ball to renderer
 	SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_Rect ballRect = { ball->mPosX, ball->mPosY, Ball::mSize, Ball::mSize };
+	SDL_Rect ballRect = { ball->mPosX + GAP, ball->mPosY, Ball::mSize,
+			Ball::mSize };
 	SDL_RenderFillRect(mRenderer, &ballRect);
 
-	// Darw bars to renderer
-	SDL_Rect leftBar = { 0, leftBarPos, Ball::mSize, Ball::BAR_Length };
-	SDL_Rect rightBar = { SCREEN_WIDTH - Ball::mSize, rightBarPos, Ball::mSize,
+	// Draw bars to renderer
+	SDL_Rect leftBar = { GAP - Ball::mSize, leftBarPos, Ball::mSize,
+			Ball::BAR_Length };
+	SDL_Rect rightBar = { SCREEN_WIDTH - GAP, rightBarPos, Ball::mSize,
 			Ball::BAR_Length };
 
 	SDL_RenderFillRect(mRenderer, &leftBar);

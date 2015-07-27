@@ -12,13 +12,13 @@
 #include <string>
 #include "Ball.h"
 
-
 using namespace std;
 
 class Graphics {
 public:
-	const static int SCREEN_WIDTH = 1280;
-	const static int SCREEN_HEIGHT = 720;
+	const static int SCREEN_WIDTH = 640;
+	const static int SCREEN_HEIGHT = 480;
+	const static int GAP = (SCREEN_WIDTH - SCREEN_HEIGHT) / 2;
 
 	const static int BAR_LENGTH = 144;
 	const static int BAR_WIDTH = 64;

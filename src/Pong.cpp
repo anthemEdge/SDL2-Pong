@@ -15,8 +15,9 @@ using namespace std;
 int main() {
 	srand(time(NULL)); // Time seeded randomness
 	Ball ball(SDL_GetTicks());
-	int userInput;
-	int aiInput;
+	ball.setGap(Graphics::GAP);
+	int userInput = 0;
+	int aiInput = 0;
 
 	// Start up graphics
 	bool userQuit = false;
@@ -45,10 +46,18 @@ int main() {
 
 		// AI
 		aiInput += (ball.mPosY - aiInput) * 0.8;
+		//aiInput = ball.mPosY - Ball::BAR_Length / 2;
 		// minor corrections to AI
 		if (aiInput > Graphics::SCREEN_HEIGHT - Ball::BAR_Length) {
 			aiInput = Graphics::SCREEN_HEIGHT - Ball::BAR_Length;
 		}
+		if (aiInput < 0) {
+			aiInput = 0;
+		}
+
+		// Return values from ball.update
+		// 0 normal
+		// 1 game over
 
 		ball.update(SDL_GetTicks(), userInput, aiInput);
 		graphics.clear();
