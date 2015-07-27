@@ -35,9 +35,9 @@ void Ball::newBall(int timeTicks) {
 	mLastUpdate = timeTicks;
 }
 
-int Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
+bool Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
 
-	int returnValue = 0;
+	bool paues = false;
 	// Time based displacement
 	// Ball is the same speed on all computers
 	// Time elapsed since last update, in seconds
@@ -96,8 +96,8 @@ int Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
 		}
 
 	} else if ((mPosX < -mGap || mPosX > ARENA_SIZE + mGap) && !mCanBounce) {
-		// game over
-		newBall(timeTicks);
+		// Game over
+		paues = true;
 	}
 
 	// Ball gets faster
@@ -106,7 +106,7 @@ int Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
 		mSpeed += 5;
 	}
 
-	return returnValue;
+	return paues;
 
 }
 

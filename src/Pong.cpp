@@ -16,8 +16,11 @@ int main() {
 	srand(time(NULL)); // Time seeded randomness
 	Ball ball(SDL_GetTicks());
 	ball.setGap(Graphics::GAP);
+
+	// Initial variables
 	int userInput = 0;
 	int aiInput = 0;
+	bool paues = false;
 
 	// Start up graphics
 	bool userQuit = false;
@@ -39,6 +42,10 @@ int main() {
 				if (userInput > Graphics::SCREEN_HEIGHT - Ball::BAR_Length) {
 					userInput = Graphics::SCREEN_HEIGHT - Ball::BAR_Length;
 				}
+			} else if (event.type == SDL_KEYDOWN) {
+				// Unpaues by player
+				paues = false;
+				ball.newBall(SDL_GetTicks());
 			}
 		}
 		// Small delay for ball to move
@@ -55,11 +62,13 @@ int main() {
 			aiInput = 0;
 		}
 
-		// Return values from ball.update
-		// 0 normal
-		// 1 game over
+		if (!paues) {
+			paues = ball.update(SDL_GetTicks(), userInput, aiInput);
+			if (paues) {
+				ball.newBall(SDL_GetTicks());
+			}
 
-		ball.update(SDL_GetTicks(), userInput, aiInput);
+		}
 		graphics.clear();
 		graphics.draw(&ball, userInput, aiInput);
 		graphics.render();

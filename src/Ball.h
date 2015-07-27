@@ -33,7 +33,7 @@ private:
 
 public:
 	Ball(int timeTicks);
-	int update(int timeTicks, int barLeftPos = 0, int barRightPos = 0);
+	bool update(int timeTicks, int barLeftPos = 0, int barRightPos = 0);
 	void newBall(int timeTicks);
 	void setGap(int gap);
 	virtual ~Ball();
