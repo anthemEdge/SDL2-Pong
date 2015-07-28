@@ -52,8 +52,9 @@ int main() {
 		SDL_Delay(10);
 
 		// AI
-		aiInput += (ball.mPosY - aiInput) * 0.8;
-		//aiInput = ball.mPosY - Ball::BAR_Length / 2;
+		//aiInput += (ball.mPosY - aiInput) * 0.8;
+		// Perfect AI
+		aiInput = ball.mPosY - Ball::BAR_Length / 2;
 		// minor corrections to AI
 		if (aiInput > Graphics::SCREEN_HEIGHT - Ball::BAR_Length) {
 			aiInput = Graphics::SCREEN_HEIGHT - Ball::BAR_Length;

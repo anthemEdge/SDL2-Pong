@@ -14,7 +14,6 @@ Ball::Ball(int timeTicks) {
 void Ball::newBall(int timeTicks) {
 
 	mSpeed = 400;
-	mCanBounce = true;
 
 	// Ball spawn at the centre of the screen
 	mPosX = (ARENA_SIZE - mSize) / 2;
@@ -65,11 +64,12 @@ bool Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
 	int maxChange = 60 * (2 * M_PI / 360);
 
 	// Check for bar bounce
-	if ((mPosX < 0 || mPosX > ARENA_SIZE - mSize) && mCanBounce) {
+	if ((mPosX < 0 || mPosX > ARENA_SIZE - mSize)) {
 		// Left Bounce
-		if (mPosX < 0 && mPosY + mSize > barLeftPos
-				&& mPosY < barLeftPos + BAR_Length) {
-			mPosX = 0;
+		if (mPosX < 0 && collision(-mSize, barLeftPos)) {
+			//mPosX < 0 && mPosY + mSize > barLeftPos
+			//&& mPosY < barLeftPos + BAR_Length
+			//mPosX = 0;
 			// Position based relative change
 			double changeRate = (double) (barLeftPos + BAR_Length / 2 - mPosY)
 					/ (BAR_Length / 2);
@@ -79,9 +79,11 @@ bool Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
 			bounced = true;
 		}
 		// Right bounce
-		else if (mPosX > ARENA_SIZE - mSize && mPosY + mSize > barRightPos
-				&& mPosY < barRightPos + BAR_Length) {
-			mPosX = ARENA_SIZE - mSize;
+		else if (mPosX > ARENA_SIZE - mSize
+				&& collision(ARENA_SIZE, barRightPos)) {
+			//mPosY + mSize > barRightPos
+			//&& mPosY < barRightPos + BAR_Length
+			//mPosX = ARENA_SIZE - mSize;
 			// Position based relative change
 			double changeRate =
 					(double) (mPosY - (barRightPos + BAR_Length / 2))
@@ -90,24 +92,59 @@ bool Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
 			mVelX = mSpeed * sin(direction);
 			mVelY = mSpeed * cos(direction);
 			bounced = true;
-			// Game over
-		} else {
-			mCanBounce = false;
 		}
 
-	} else if ((mPosX < -mGap || mPosX > ARENA_SIZE + mGap) && !mCanBounce) {
-		// Game over
-		paues = true;
+		else if ((mPosX < -mGap || mPosX > ARENA_SIZE + mGap)) {
+			// Game over
+			paues = true;
+		}
+
 	}
 
 	// Ball gets faster
 	if (bounced) {
-		mCanBounce = true;
 		mSpeed += 5;
 	}
 
 	return paues;
 
+}
+
+bool Ball::collision(int barX, int barY) {
+	bool collision = true;
+
+	int leftBar, leftBall;
+	int rightBar, rightBall;
+	int topBar, topBall;
+	int bottomBar, bottomBall;
+
+	leftBar = barX;
+	rightBar = barX + mSize;
+	topBar = barY;
+	bottomBar = barY + BAR_Length;
+
+	leftBall = mPosX;
+	rightBall = mPosX + mSize;
+	topBall = mPosY;
+	bottomBall = mPosY + mSize;
+
+	if (bottomBall <= topBar) {
+		collision = false;
+	}
+
+	if (leftBall >= rightBar) {
+		collision = false;
+	}
+
+	if (rightBall <= leftBar) {
+		collision = false;
+	}
+
+	if (topBall >= bottomBar) {
+		collision = false;
+	}
+
+	return collision;
 }
 
 void Ball::setGap(int gap) {
