@@ -32,6 +32,7 @@ void Ball::newBall(int timeTicks) {
 	}
 
 	mLastUpdate = timeTicks;
+
 }
 
 bool Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
@@ -97,6 +98,11 @@ bool Ball::update(int timeTicks, int barLeftPos, int barRightPos) {
 		else if ((mPosX < -mGap || mPosX > ARENA_SIZE + mGap)) {
 			// Game over
 			paues = true;
+			if (mPosX < -mGap) {
+				mLeftWon = false;
+			} else {
+				mLeftWon = true;
+			}
 		}
 
 	}
@@ -147,6 +153,9 @@ bool Ball::collision(int barX, int barY) {
 	return collision;
 }
 
+bool Ball::leftWon() {
+	return mLeftWon;
+}
 void Ball::setGap(int gap) {
 	mGap = gap;
 }

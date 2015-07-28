@@ -20,7 +20,8 @@ src/Pong.d: ../src/Pong.cpp /usr/include/SDL2/SDL.h \
  /usr/include/SDL2/SDL_messagebox.h /usr/include/SDL2/SDL_power.h \
  /usr/include/SDL2/SDL_render.h /usr/include/SDL2/SDL_system.h \
  /usr/include/SDL2/SDL_timer.h /usr/include/SDL2/SDL_version.h \
- ../src/Graphics.h ../src/Ball.h
+ ../src/Graphics.h /usr/include/SDL2/SDL_ttf.h /usr/include/SDL2/SDL.h \
+ ../src/Ball.h
 
 /usr/include/SDL2/SDL.h:
 
@@ -109,5 +110,9 @@ src/Pong.d: ../src/Pong.cpp /usr/include/SDL2/SDL.h \
 /usr/include/SDL2/SDL_version.h:
 
 ../src/Graphics.h:
+
+/usr/include/SDL2/SDL_ttf.h:
+
+/usr/include/SDL2/SDL.h:
 
 ../src/Ball.h:

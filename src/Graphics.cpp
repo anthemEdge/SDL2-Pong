@@ -8,7 +8,7 @@
 #include "Graphics.h"
 
 Graphics::Graphics() :
-		mWindow(NULL), mRenderer(NULL) {
+		mWindow(NULL), mRenderer(NULL), mFont(NULL) {
 }
 
 bool Graphics::init() {
@@ -20,9 +20,26 @@ bool Graphics::init() {
 		printf("SDL unable to initialise! SDL Error: %s. \n", SDL_GetError());
 	}
 
+	// SDL true front
+	if (TTF_Init() == -1) {
+		success = false;
+		printf("SDL_ttf unable to initialise! SDL_ttf Error: %s. \n",
+		TTF_GetError);
+	}
+
+	// Load front
+	if (success) {
+		mFont = TTF_OpenFont("assets/FFFFORWA.TTF", 16);
+		if (mFont == NULL) {
+			success = false;
+			printf("Unable to load font %s! SDL_ttf Error: %s. \n",
+					"assets/FFFFORWA.TTF", TTF_GetError);
+		}
+	}
+
 	// Create and Present a Window
 	if (success) {
-		mWindow = SDL_CreateWindow("Pong Game", SDL_WINDOWPOS_UNDEFINED,
+		mWindow = SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (mWindow == NULL) {
 			success = false;
@@ -75,8 +92,53 @@ void Graphics::draw(Ball* ball, int leftBarPos, int rightBarPos) {
 
 }
 
+bool Graphics::showText(int x, int y, string text, bool middle) {
+	bool success = true;
+	SDL_Texture* textTexture;
+	SDL_Color white = { 0xFF, 0xFF, 0xFF };
+	SDL_Surface* textSurface = TTF_RenderText_Solid(mFont, text.c_str(),
+			white);
+	if (textSurface == NULL) {
+		success = false;
+		printf("Unable to create surface from text! SDL_ttf Error: %s.\n",
+		TTF_GetError);
+	}
+
+	if (success) {
+		textTexture = SDL_CreateTextureFromSurface(mRenderer, textSurface);
+		if (textTexture == NULL) {
+			printf(
+					"Unable to convert text surface to texture! SDL Error: %s.\n",
+					SDL_GetError());
+			success = false;
+		}
+	}
+
+	if (success) {
+		// Create SDL_Rect for texture
+		SDL_Rect target;
+		if (middle) {
+			target.x = (SCREEN_WIDTH - textSurface->w) / 2;
+		} else {
+			target.x = x;
+		}
+		target.y = y;
+		target.h = textSurface->h;
+		target.w = textSurface->w;
+
+		// Add to Render
+		SDL_RenderCopy(mRenderer, textTexture, NULL, &target);
+
+		// Free surface
+		SDL_FreeSurface(textSurface);
+		SDL_DestroyTexture(textTexture);
+	}
+
+	return success;
+}
+
 void Graphics::render() {
-	// Present the renderer
+// Present the renderer
 	SDL_RenderPresent(mRenderer);
 }
 

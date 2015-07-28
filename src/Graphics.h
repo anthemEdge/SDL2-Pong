@@ -9,6 +9,7 @@
 #define GRAPHICS_H_
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <string>
 #include "Ball.h"
 
@@ -31,11 +32,14 @@ public:
 	void draw(Ball* ball, int barLeftPos = 0, int barRightPos = 0);
 	void render();
 
+	bool showText(int x, int y, string text, bool middle = true);
+
 	virtual ~Graphics();
 
 private:
 	SDL_Window* mWindow;
 	SDL_Renderer* mRenderer;
+	TTF_Font* mFont;
 };
 
 #endif /* GRAPHICS_H_ */

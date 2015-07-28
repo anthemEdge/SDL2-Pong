@@ -20,7 +20,7 @@ class Ball {
 public:
 	int mPosX, mPosY;
 public:
-	const static int BAR_Length = 72;
+	const static int BAR_Length = 64;
 	const static int mSize = 8;
 
 private:
@@ -29,6 +29,7 @@ private:
 	int mSpeed;
 	int mLastUpdate;
 	int mGap;
+	bool mLeftWon;
 
 private:
 	bool collision(int barX, int barY);
@@ -38,6 +39,7 @@ public:
 	bool update(int timeTicks, int barLeftPos = 0, int barRightPos = 0);
 	void newBall(int timeTicks);
 	void setGap(int gap);
+	bool leftWon();
 	virtual ~Ball();
 };
 
