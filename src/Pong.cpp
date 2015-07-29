@@ -17,7 +17,7 @@ int main() {
 	srand(time(NULL)); // Time seeded randomness
 	Ball ball(SDL_GetTicks());
 	ball.setGap(Graphics::GAP);
-	int scoreLim = 3;
+	int scoreLim = 10;
 
 	// Initial variables
 	int userInput = 0;
@@ -71,7 +71,7 @@ int main() {
 		SDL_Delay(10);
 
 		// AI
-		aiInput += (ball.mPosY - Ball::BAR_Length / 2 - aiInput) * 0.1;
+		aiInput += (ball.mPosY - Ball::BAR_Length / 2 - aiInput) * 0.15;
 		// Perfect AI
 		//aiInput = ball.mPosY - Ball::BAR_Length / 2;
 		// minor corrections to AI
@@ -106,8 +106,8 @@ int main() {
 		graphics.draw(&ball, userInput, aiInput);
 		// When the game is paused
 		if (paues) {
-			graphics.showText(200, 300, "Press [SPACE] to Start");
-			graphics.showText(200, 340, "Press [Q] to Quit");
+			graphics.showText(200, 400, "Press [SPACE] to Start");
+			graphics.showText(200, 440, "Press [Q] to Quit");
 			if (userScore == scoreLim || aiScore == scoreLim) {
 				newGame = true;
 				string name;
